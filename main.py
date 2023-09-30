@@ -28,20 +28,23 @@ class TemplatePlugin(AbstractPlugin):
         return "None"
 
     def __register_all_config(self):
-        self._config_registry.register_config(self.CONFIG_DETECTED_KEYWORD, "mk")
+        self._config_registry.register_config(self.CONFIG_DETECTED_KEYWORD, "test")
 
     def install(self):
         from graia.ariadne.message.parser.base import ContainKeyword
         from graia.ariadne.model import Group
+        from graia.ariadne.event.message import GroupMessage
 
         self.__register_all_config()
         self._config_registry.load_config()
-        ariadne_app = self._ariadne_app
-        bord_cast = ariadne_app.broadcast
 
-        @bord_cast.receiver(
-            "GroupMessage",
+        from graia.ariadne import Ariadne
+
+        async def hello(app: Ariadne, group: Group):
+            await app.send_message(group, "hello")
+
+        self.receiver(
+            hello,
+            GroupMessage,
             decorators=[ContainKeyword(keyword=self._config_registry.get_config(self.CONFIG_DETECTED_KEYWORD))],
         )
-        async def hello(group: Group):
-            await ariadne_app.send_message(group, "hello")
