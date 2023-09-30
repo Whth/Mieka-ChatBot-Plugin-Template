@@ -40,11 +40,9 @@ class TemplatePlugin(AbstractPlugin):
 
         from graia.ariadne import Ariadne
 
-        async def hello(app: Ariadne, group: Group):
-            await app.send_message(group, "hello")
-
-        self.receiver(
-            hello,
+        @self.receiver(
             GroupMessage,
             decorators=[ContainKeyword(keyword=self._config_registry.get_config(self.CONFIG_DETECTED_KEYWORD))],
         )
+        async def hello(app: Ariadne, group: Group):
+            await app.send_message(group, "hello")
