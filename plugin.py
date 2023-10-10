@@ -1,9 +1,5 @@
 import os
 
-from modules.plugin_base import AbstractPlugin
-
-__all__ = ["TemplatePlugin"]
-
 
 class TemplatePlugin(AbstractPlugin):
     CONFIG_DETECTED_KEYWORD = "detected_keyword"
