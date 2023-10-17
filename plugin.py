@@ -1,4 +1,5 @@
 import os
+from modules.plugin_base import AbstractPlugin
 
 
 class TemplatePlugin(AbstractPlugin):
